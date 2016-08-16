@@ -16,14 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--카카오-->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
+        <!--트위터-->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c104f1c94b465ea58a851a9afc70b3fead50168e" />
 
+        <!--페이스북-->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_id" />
@@ -43,7 +46,16 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/daum_id" />
+            </intent-filter>
+        </activity>
 
         <!--카카오 로그인-->
         <activity
@@ -82,14 +94,14 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="@string/daum_id" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <!--구글 로그인-->

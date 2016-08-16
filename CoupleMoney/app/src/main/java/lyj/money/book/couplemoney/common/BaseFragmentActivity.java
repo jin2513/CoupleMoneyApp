@@ -76,6 +76,8 @@ public class BaseFragmentActivity extends FragmentActivity {
         FragmentManager fragment = getSupportFragmentManager();
         if (fragment != null) {
             fragment.findFragmentByTag("LoginFragment").onActivityResult(requestCode, resultCode, data);
-        } else Log.d("Twitter", "fragment is null");
+        } else {
+            Log.d("Twitter", "fragment is null");
+        }
     }
 }

@@ -3,9 +3,11 @@ package lyj.money.book.couplemoney.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -14,10 +16,15 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
+import com.kakao.auth.Session;
+import com.nhn.android.naverlogin.OAuthLogin;
+import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+
+import net.daum.mf.oauth.MobileOAuthLibrary;
 
 import java.util.Arrays;
 
@@ -27,12 +34,15 @@ import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 import lyj.money.book.couplemoney.R;
 import lyj.money.book.couplemoney.common.BaseFragment;
+import lyj.money.book.couplemoney.social.daum.DaumLogin;
 import lyj.money.book.couplemoney.social.daum.DaumLoginActivity;
 import lyj.money.book.couplemoney.social.facebook.FacebookLogin;
 import lyj.money.book.couplemoney.social.facebook.FacebookLoginActivity;
 import lyj.money.book.couplemoney.social.google.GoogleLogin;
 import lyj.money.book.couplemoney.social.google.GoogleLoginActivity;
+import lyj.money.book.couplemoney.social.kakao.KakaoLogin;
 import lyj.money.book.couplemoney.social.kakao.KakaoLoginActivity;
+import lyj.money.book.couplemoney.social.naver.NaverLogin;
 import lyj.money.book.couplemoney.social.naver.NaverLoginActivity;
 import lyj.money.book.couplemoney.social.twitter.TwitterLogin;
 import lyj.money.book.couplemoney.social.twitter.TwitterLoginActivity;
@@ -45,24 +55,25 @@ public class LoginFragment extends BaseFragment {
     // 구글 RESULT_CODE
     private static final int RC_SIGN_IN = 9001;
 
-    // 페이스북
-    private CallbackManager mCallbackManager;
-
-    // 구글
-    GoogleLogin mGoogleLogin;
-
     // 트위터
     @Bind(R.id.bt_login_twitter_login)
     TwitterLoginButton mBtTwitterLogin;
     // 페이스북
+    private CallbackManager mCallbackManager;
     @Bind(R.id.bt_login_facebook_login)
     LoginButton mBtFacebookLogin;
     // 구글
+    GoogleLogin mGoogleLogin;
     @Bind(R.id.bt_login_google_login)
     SignInButton mBtGoogleLogin;
     // 네이버
+    NaverLogin mNaverLogin;
     @Bind(R.id.bt_login_naver_login)
-    SignInButton mBtNaverLogin;
+    OAuthLoginButton mBtNaverLogin;
+    // 다음
+    DaumLogin mDaumLogin;
+    // 카카오
+    KakaoLogin mKakaoLogin;
 
     @Nullable
     @Override
@@ -88,6 +99,19 @@ public class LoginFragment extends BaseFragment {
         mBtGoogleLogin.setSize(SignInButton.SIZE_STANDARD);
         mBtGoogleLogin.setScopes(mGoogleLogin.mGso.getScopeArray());
 
+        // 네이버
+        mNaverLogin = new NaverLogin(getActivity());
+        mNaverLogin.initData();
+        mBtNaverLogin.setOAuthLoginHandler(mNaverLogin.mOAuthLoginHandler);
+
+        // 다음
+        mDaumLogin = new DaumLogin(getActivity());
+        mDaumLogin.onInit();
+
+        // 카카오
+        mKakaoLogin = new KakaoLogin(getActivity());
+        mKakaoLogin.onInit();
+
         return mView;
     }
 
@@ -105,7 +129,7 @@ public class LoginFragment extends BaseFragment {
     }
 
     @OnClick({R.id.bt_login_main, R.id.bt_login_kakao, R.id.bt_login_naver, R.id.bt_login_daum, R.id.bt_login_google, R.id.bt_login_twitter, R.id.bt_login_facebook, R.id.bt_login_google_login,
-            R.id.bt_login_naver_login, R.id.bt_login_finish})
+            R.id.bt_login_naver_login, R.id.bt_login_daum_login, R.id.bt_login_finish})
     void onClick(View v) {
         Intent intent;
 
@@ -149,7 +173,11 @@ public class LoginFragment extends BaseFragment {
                 break;
 
             case R.id.bt_login_naver_login:
+                mNaverLogin.login();
+                break;
 
+            case R.id.bt_login_daum_login:
+                MobileOAuthLibrary.getInstance().authorize(getActivity(), mDaumLogin.oAuthListener);
                 break;
 
             case R.id.bt_login_finish:
@@ -172,9 +200,20 @@ public class LoginFragment extends BaseFragment {
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
         // 구글
-        if (requestCode == RC_SIGN_IN) {
+        else if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             mGoogleLogin.handleSignInResult(result);
         }
+        // 카카오
+        Log.e("requestCode", "" + requestCode);
+        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mKakaoLogin.removeCallback();
     }
 }
