@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">CoupleMoney</string>
+    <string name="app_name">Couple Money</string>
+
+    <!--카카오 로그인 key-->
+    <string name="kakao_app_key">f55da33e8a22acc5489e85d030a0c603</string>
+
+    <!--구글 로그인 ID-->
+    <string name="server_client_id">692769889068-bt5qnnqt3k6nrd93uemj6k4mrlslvi1m.apps.googleusercontent.com</string>
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="loading">Loading…</string>
+    <string name="signed_out">Signed out</string>
+
+    <!--Fabric api key-->
+    <string name="fabric_api_key">c104f1c94b465ea58a851a9afc70b3fead50168e</string>
+
+    <!--Fabric api key-->
+    <string name="facebook_id">1545329372419152</string>
+
+    <!--다음 ID-->
+    <string name="daum_id">daum-8282426953094334368</string>
+
 </resources>

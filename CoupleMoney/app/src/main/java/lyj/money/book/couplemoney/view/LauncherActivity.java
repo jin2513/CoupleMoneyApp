@@ -2,8 +2,16 @@ package lyj.money.book.couplemoney.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
+import android.util.Log;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import lyj.money.book.couplemoney.R;
 import lyj.money.book.couplemoney.common.BaseFragmentActivity;

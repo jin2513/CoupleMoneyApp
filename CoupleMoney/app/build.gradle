@@ -1,4 +1,20 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
 
 android {
     compileSdkVersion 24
@@ -6,10 +22,12 @@ android {
 
     defaultConfig {
         applicationId "lyj.money.book.couplemoney"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 24
         versionCode 100
         versionName "1.0.0"
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -17,18 +35,47 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+    }
+
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.1.1'
-
-    //Butterknife
+    // Butterknife
     compile 'com.jakewharton:butterknife:7.0.1'
-
-    // Retrofit
-    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-    //json파싱을 위한 주입
-    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    // Retrofit2
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    // json파싱을 위한 주입
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    // 카카오톡 sdk를 사용하기 위해 필요.
+    compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    // 구글 로그인
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    // 트위터 로그인
+    compile('com.twitter.sdk.android:twitter:1.14.1@aar') {
+        transitive = true;
+    }
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
+        transitive = true;
+    }
+    // 페이스북 로그인
+    compile 'com.facebook.android:facebook-android-sdk:4.8.2'
 }

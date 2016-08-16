@@ -10,7 +10,7 @@ import lyj.money.book.couplemoney.util.Utility;
 public class BaseFragment extends Fragment {
     public View mView;
 
-    protected void startFragment(FragmentManager fm, Class<? extends BaseFragment> fragmentClass) {
+    protected void startFragment(Class<? extends BaseFragment> fragmentClass) {
         BaseFragment fragment = null;
         try {
             fragment = fragmentClass.newInstance();
@@ -22,7 +22,8 @@ public class BaseFragment extends Fragment {
             throw new IllegalStateException("cannot start fragment. " + fragmentClass.getName());
         }
 
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fl_activity_base_fragment, fragment).addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fl_activity_base_fragment, fragment).addToBackStack(null).commit();
+//        fm.beginTransaction().add(R.id.fl_activity_base_fragment, fragment).addToBackStack(null).commit();
     }
 
     protected void finishFragment() {

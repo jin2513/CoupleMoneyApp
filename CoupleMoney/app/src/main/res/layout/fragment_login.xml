@@ -5,16 +5,83 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/bt_login_twitter_login"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/bt_login_facebook_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LoginFragment" />
+        android:layout_marginTop="10dp" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/bt_login_google_login"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp" />
 
     <Button
-        android:id="@+id/bt_login"
+        android:id="@+id/bt_login_naver_login"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:text="Naver Login" />
+
+    <Button
+        android:id="@+id/bt_login_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test go" />
+        android:text="Main" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_login_kakao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kakao" />
+
+        <Button
+            android:id="@+id/bt_login_naver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Naver" />
+
+        <Button
+            android:id="@+id/bt_login_daum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daum" />
+
+        <Button
+            android:id="@+id/bt_login_google"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Google" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_login_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Twitter" />
+
+        <Button
+            android:id="@+id/bt_login_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Facebook" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/bt_login_finish"
